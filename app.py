@@ -6,7 +6,7 @@ import time
 import os
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:8080"], methods=['GET', 'POST'], allow_headers=["Content-Type"])
+CORS(app, origins='*', methods=['GET', 'POST'], allow_headers=["Content-Type"])
 
 users = {
     "admin": {"email": "admin@someplace.com"},
