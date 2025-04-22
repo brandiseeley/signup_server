@@ -35,7 +35,7 @@ def index():
 
 @app.route('/user_exists')
 def user_exists():
-    time.sleep(0.8)
+    time.sleep(0.5)
     username = request.args.get('username')
     if username is None:
         return {"error": "Missing 'username' parameter"}, 400
@@ -68,7 +68,7 @@ def email_exists():
 
 @app.route('/valid_password', methods=['POST'])
 def valid_password():
-    time.sleep(0.4)
+    time.sleep(0.5)
     data = request.get_json()
     password = data.get('password')
 

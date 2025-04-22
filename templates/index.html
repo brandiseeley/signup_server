@@ -1,1 +1,349 @@
-<h1>Hello, World!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask API Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            border-left: 5px solid #007bff;
+        }
+        h1 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        h3 {
+            color: #3498db;
+            margin-top: 25px;
+        }
+        .endpoint {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid #28a745;
+        }
+        .method {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .get {
+            background-color: #61affe;
+            color: white;
+        }
+        .post {
+            background-color: #49cc90;
+            color: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .response-example {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .note {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 5px solid #ffc107;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Flask API Documentation</h1>
+        <p>This document provides detailed information about the available endpoints, request parameters, and responses for the User Authentication API.</p>
+    </header>
+
+    <div class="section">
+        <h2>Overview</h2>
+        <p>This Flask server provides several endpoints for user authentication and validation. The API supports checking if a username or email exists, validating passwords, and this root endpoint for documentation.</p>
+        
+        <h3>CORS Configuration</h3>
+        <p>The server implements Cross-Origin Resource Sharing (CORS) with the following configuration:</p>
+        <ul>
+            <li>Origins: All origins are allowed (<code>*</code>)</li>
+            <li>Methods: GET, POST</li>
+            <li>Headers: Content-Type</li>
+        </ul>
+    </div>
+
+    <div class="section">
+      <h2>User Data</h2>
+      <p>The server has the following predefined users:</p>
+      <table>
+          <thead>
+              <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>admin</td>
+                  <td>admin@someplace.com</td>
+              </tr>
+              <tr>
+                  <td>elphaba</td>
+                  <td>elphaba@thropp.com</td>
+              </tr>
+              <tr>
+                  <td>glinda</td>
+                  <td>the@good.com</td>
+              </tr>
+              <tr>
+                  <td>oz</td>
+                  <td>hoax@emeraldcity.com</td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+        <h2>Endpoints</h2>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> /</h3>
+            <p>Serves this documenation page.</p>
+            
+            <h4>Response</h4>
+            <p>HTML</p>
+        </div>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> /user_exists</h3>
+            <p>Checks if a username exists in the system.</p>
+            
+            <h4>Query Parameters</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>username</td>
+                        <td>string</td>
+                        <td>Yes</td>
+                        <td>The username to check</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h4>Response</h4>
+            <p>JSON object with the following properties:</p>
+            <pre>{
+  "username": "string",
+  "exists": boolean
+}</pre>
+
+            <h4>Example</h4>
+            <p>Request: <code>GET /user_exists?username=admin</code></p>
+            <div class="response-example">
+                <pre>{
+  "username": "admin",
+  "exists": true
+}</pre>
+            </div>
+            
+            <h4>Error Response</h4>
+            <p>If the username parameter is missing:</p>
+            <pre>{
+  "error": "Missing 'username' parameter"
+}</pre>
+            <p>Status Code: 400 Bad Request</p>
+            
+            <div class="note">
+                <p>Note: This endpoint has an intentional delay of 0.5 seconds to simulate network latency.</p>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> /user_exists_unreliable</h3>
+            <p>Similar to /user_exists but intentionally fails 50% of the time.</p>
+            
+            <h4>Query Parameters</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>username</td>
+                        <td>string</td>
+                        <td>Yes</td>
+                        <td>The username to check</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h4>Response</h4>
+            <p>When successful, returns the same response as /user_exists.</p>
+            
+            <h4>Error Response</h4>
+            <p>50% of requests will result in a 500 Internal Server Error.</p>
+            
+            <div class="note">
+                <p>Note: This endpoint has an intentional delay of 0.5 seconds and is designed to be unreliable for testing error handling.</p>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> /email_registered</h3>
+            <p>Checks if an email address is already registered in the system.</p>
+            
+            <h4>Query Parameters</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>email</td>
+                        <td>string</td>
+                        <td>Yes</td>
+                        <td>The email address to check</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h4>Response</h4>
+            <p>JSON object with the following properties:</p>
+            <pre>{
+  "email": "string",
+  "exists": boolean
+}</pre>
+
+            <h4>Example</h4>
+            <p>Request: <code>GET /email_registered?email=admin@someplace.com</code></p>
+            <div class="response-example">
+                <pre>{
+  "email": "admin@someplace.com",
+  "exists": true
+}</pre>
+            </div>
+            
+            <h4>Error Response</h4>
+            <p>If the email parameter is missing:</p>
+            <pre>{
+  "error": "Missing 'email' parameter"
+}</pre>
+            <p>Status Code: 400 Bad Request</p>
+            
+            <div class="note">
+                <p>Note: This endpoint has an intentional delay of 0.5 seconds to simulate network latency.</p>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h3><span class="method post">POST</span> /valid_password</h3>
+            <p>Validates if a password meets the required criteria.</p>
+            
+            <h4>Password Requirements</h4>
+            <ul>
+                <li>Minimum length of 8 characters</li>
+                <li>At least one digit</li>
+                <li>At least one uppercase letter</li>
+            </ul>
+            
+            <h4>Request Body</h4>
+            <p>JSON object with the following structure:</p>
+            <pre>{
+  "password": "string"
+}</pre>
+
+            <h4>Response</h4>
+            <p>JSON object with the following properties:</p>
+            <pre>{
+  "valid": boolean,
+  "message": "string"
+}</pre>
+
+            <h4>Example</h4>
+            <p>Request:</p>
+            <pre>{
+  "password": "Password123"
+}</pre>
+            <div class="response-example">
+                <pre>{
+  "valid": true,
+  "message": "Password is valid."
+}</pre>
+            </div>
+            
+            <div class="note">
+                <p>Note: This endpoint has an intentional delay of 0.5 seconds to simulate network latency.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Copyright © 2025 - Flask API Documentation</p>
+    </footer>
+</body>
+</html>
