@@ -127,31 +127,91 @@
               <tr>
                   <th>Username</th>
                   <th>Email</th>
+                  <th>ID</th>
               </tr>
           </thead>
           <tbody>
               <tr>
                   <td>admin</td>
                   <td>admin@someplace.com</td>
+                  <td>42</td>
               </tr>
               <tr>
                   <td>elphaba</td>
                   <td>elphaba@thropp.com</td>
+                  <td>1</td>
               </tr>
               <tr>
                   <td>glinda</td>
                   <td>the@good.com</td>
+                  <td>2</td>
               </tr>
               <tr>
                   <td>oz</td>
                   <td>hoax@emeraldcity.com</td>
+                  <td>3</td>
               </tr>
           </tbody>
       </table>
+      <p>Note: Each user has a numeric <code>id</code> which can be used with the <code>/posts/&lt;id&gt;</code> endpoint to retrieve that user's posts.</p>
     </div>
 
     <div class="section">
         <h2>Endpoints</h2>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> /users</h3>
+            <p>Returns the full mapping of usernames to user objects.</p>
+
+            <h4>Response</h4>
+            <p>JSON object where each key is a username and the value is an object with the user's data (email and id):</p>
+            <pre>{
+  "admin": { "email": "admin@someplace.com", "id": 42 },
+  "elphaba": { "email": "elphaba@thropp.com", "id": 1 },
+  "glinda": { "email": "the@good.com", "id": 2 },
+  "oz": { "email": "hoax@emeraldcity.com", "id": 3 }
+}</pre>
+
+            <div class="note">
+                <p>Note: This endpoint exposes the internal user mapping for this demo server. IDs can be used with <code>/posts/&lt;id&gt;</code>.</p>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <h3><span class="method get">GET</span> /posts/&lt;id&gt;</h3>
+            <p>Returns the list of post titles for the user with the given numeric <code>id</code>.</p>
+
+            <h4>Path Parameters</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>integer</td>
+                        <td>Yes</td>
+                        <td>The numeric user id</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Response</h4>
+            <p>JSON object with the user's id and an array of post titles. The endpoint has an intentional 0.5s delay.</p>
+            <pre>{
+  "userId": 1,
+  "posts": ["Defying gravity", "Wizard of Oz review", "How to read the Grimmerie"]
+}</pre>
+
+            <div class="note">
+                <p>Note: If the id has no posts, an empty array is returned.</p>
+            </div>
+        </div>
 
         <div class="endpoint">
             <h3><span class="method get">GET</span> /</h3>

@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 from flask_cors import CORS
 
 import random
@@ -9,10 +9,17 @@ app = Flask(__name__)
 CORS(app, origins='*', methods=['GET', 'POST'], allow_headers=["Content-Type"])
 
 users = {
-    "admin": {"email": "admin@someplace.com"},
-    "elphaba": {"email": "elphaba@thropp.com"},
-    "glinda": {"email": "the@good.com"},
-    "oz": {"email": "hoax@emeraldcity.com"},
+    "admin": {"email": "admin@someplace.com", "id": 42},
+    "elphaba": {"email": "elphaba@thropp.com", "id": 1},
+    "glinda": {"email": "the@good.com", "id": 2},
+    "oz": {"email": "hoax@emeraldcity.com", "id": 3},
+}
+
+posts = {
+    42: ['Another day at the office'],
+    1: ['Defying gravity', 'Wizard of Oz review', 'How to read the Grimmerie'],
+    2: ['Study group for magic', 'On Being Good', 'How to charm crowds'],
+    3: ['Oz travel guide', 'Flying monkeys are tricky', 'Emerald City secrets'],
 }
 
 emails = [data['email'] for data in users.values()]
@@ -32,6 +39,15 @@ def index():
     with open("templates/index.html", "r") as file:
         return file.read()
 
+@app.route('/users')
+def get_users():
+    return users
+
+@app.route('/posts/<int:user_id>')
+def get_posts(user_id):
+    time.sleep(0.5)
+    user_posts = posts.get(user_id, [])
+    return jsonify({"userId": user_id, "posts": user_posts})
 
 @app.route('/user_exists')
 def user_exists():
